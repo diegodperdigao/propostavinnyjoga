@@ -136,7 +136,7 @@
             <div class="max-w-7xl mx-auto px-6 w-full relative z-10 flex flex-col items-center justify-center mt-12 md:mt-16">
                 <div class="max-w-5xl flex flex-col items-center text-center gap-6 mx-auto">
                     <h1 id="influencer-name" class="text-4xl sm:text-6xl md:text-7xl lg:text-[6rem] xl:text-[7.5rem] font-black leading-none tracking-tighter text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] whitespace-nowrap w-full uppercase">
-                        CALVO FORRA
+                        ...
                     </h1>
                     <a href="#comercial" class="mt-4 relative inline-block bg-white text-black font-extrabold uppercase tracking-[0.15em] px-10 py-5 text-sm md:text-base transition-all duration-300 hover:-translate-y-1 hover:shadow-[8px_8px_0px_#111111]">
                         Ver Detalhes do Acordo
@@ -218,15 +218,15 @@
                             <li class="flex items-start gap-4">
                                 <div class="text-purple-500 font-black text-xl mt-1">1</div>
                                 <div>
-                                    <h4 id="pay-title-1" class="font-bold text-white">50% Antecipado (...)</h4>
-                                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Pago mediante assinatura do contrato e início imediato das entregas.</p>
+                                    <h4 id="pay-title-full" class="font-bold text-white">100% Antecipado (...)</h4>
+                                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Valor fixo integral pago mediante assinatura do contrato e início imediato das entregas.</p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-4">
                                 <div class="text-purple-500 font-black text-xl mt-1">2</div>
                                 <div>
-                                    <h4 class="font-bold text-white">50% Final + Bônus Acelerador</h4>
-                                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Apuração paga após a entrega da meta e validação do KPI.</p>
+                                    <h4 class="font-bold text-white">Apuração de Bônus</h4>
+                                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Valores extras de acelerador serão apurados e pagos após o término do período e validação do KPI.</p>
                                 </div>
                             </li>
                         </ul>
@@ -244,7 +244,7 @@
     <script>
         /* CONFIGURAÇÃO DO MODELO */
         const CONFIG = {
-            influencer: "VINNU JOGA",
+            influencer: "VINNY JOGA",
             partnerLogo: "https://i.ibb.co/DgVdfDmz/image-7-1.png",
             metaBase: 60000,      
             valorFixo: 6000,      
@@ -292,8 +292,8 @@
             document.getElementById('display-fixo').innerText = fmt.format(CONFIG.valorFixo);
             document.getElementById('display-acelerador').innerText = `+ ${fmt.format(CONFIG.bonusPorFaixa)}`;
 
-            const valor50 = CONFIG.valorFixo / 2;
-            document.getElementById('pay-title-1').innerText = `50% Antecipado (${fmt.format(valor50)})`;
+            // Pagamento 100% Antecipado
+            document.getElementById('pay-title-full').innerText = `100% Antecipado (${fmt.format(CONFIG.valorFixo)})`;
 
             const scenarios = [
                 { meta: CONFIG.metaBase, label: "Cenário 1", desc: "Fixo Base" },
