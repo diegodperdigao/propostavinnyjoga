@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Comercial | 3C Gaming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #030008; color: #fff; overflow-x: hidden; }
+
+        /* Fundo Estelar 3C */
+        .bg-fluid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: #030008; 
+            background-image: 
+                radial-gradient(circle at 75% 40%, rgba(255, 0, 127, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at 25% 80%, rgba(106, 13, 173, 0.05) 0%, transparent 60%);
+            filter: blur(40px);
+        }
+
+        .bg-noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.08; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass-panel { background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+
+        /* Mosaico Animado 3D - Protege o cabeçalho com máscara */
+        .mosaic-wrapper {
+            position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; 
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0px, transparent 90px, black 250px, black 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0px, transparent 90px, black 250px, black 60%, transparent 100%);
+        }
+        
+        .mosaic-container {
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            transform: perspective(1000px) rotateX(25deg) rotateY(-15deg) rotateZ(10deg);
+            transform-origin: center;
+        }
+        
+        .mosaic-pattern {
+            width: 100%; height: 100%;
+            background-size: 180px; background-repeat: repeat;
+            opacity: 0.28; animation: panMosaic 25s linear infinite;
+        }
+
+        @keyframes panMosaic {
+            from { background-position: 0px 0px; }
+            to { background-position: -180px -180px; }
+        }
+
+        /* Animação de erro na senha */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake { animation: shake 0.2s ease-in-out 0s 2; border-color: #ef4444 !important; }
+    </style>
+</head>
+<body class="antialiased selection:bg-pink-500 selection:text-white">
+
+    <!-- Tela de Bloqueio -->
+    <div id="lock-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#030008] transition-opacity duration-700">
+        <div class="bg-fluid"></div>
+        <div class="bg-noise"></div>
+        
+        <div class="max-w-md w-full px-8 text-center">
+            <div class="mb-8 flex flex-col items-center">
+                <img src="https://i.ibb.co/TDvNpKbv/285535120-111261434935979-5560566145880188190-n.jpg" alt="3C" class="h-16 w-16 rounded-full object-cover border-2 border-white/10 mb-4">
+                <h2 class="text-xs font-bold tracking-[0.3em] uppercase text-gray-400">Documento Confidencial</h2>
+            </div>
+            
+            <div class="glass-panel p-8 rounded-lg border border-white/10 shadow-2xl">
+                <p class="text-sm text-gray-300 mb-6 leading-relaxed">Este material é privado. Insira a senha de acesso para visualizar a proposta.</p>
+                
+                <div class="space-y-4">
+                    <input type="password" id="password-input" placeholder="Digite a senha..." 
+                        class="w-full bg-black/40 border border-white/10 px-4 py-4 rounded text-center text-white focus:outline-none focus:border-pink-500 transition-all placeholder:text-gray-600 tracking-widest">
+                    
+                    <button onclick="checkPassword()" class="w-full bg-white text-black font-black uppercase tracking-widest py-4 rounded hover:bg-pink-500 hover:text-white transition-all duration-300 active:scale-95">
+                        Desbloquear
+                    </button>
+                </div>
+            </div>
+            
+            <p class="mt-8 text-[10px] text-gray-600 uppercase tracking-widest">&copy; 2026 3C Gaming BizDev</p>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal (Oculto até o desbloqueio) -->
+    <div id="main-content" class="hidden">
+        <div class="bg-fluid"></div>
+        <div class="bg-noise"></div>
+
+        <!-- Navbar -->
+        <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="bg-white/5 border border-white/10 p-1.5 pr-4 rounded-full flex items-center gap-3 backdrop-blur-md">
+                    <img src="https://i.ibb.co/TDvNpKbv/285535120-111261434935979-5560566145880188190-n.jpg" alt="3C" class="h-8 w-8 rounded-full object-cover">
+                    <span class="text-[0.65rem] tracking-[0.2em] uppercase text-gray-300 font-bold">Proposta Comercial</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8 text-sm font-bold tracking-wider">
+                    <a href="#comercial" class="hover:text-pink-500 transition-colors">METAS & VALORES</a>
+                    <a href="#regras" class="hover:text-pink-500 transition-colors">REGRAS</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="min-h-[85vh] relative flex items-center pt-32 pb-24 overflow-hidden border-b border-white/5">
+            <div class="mosaic-wrapper">
+                <div class="absolute inset-0 bg-gradient-to-tr from-purple-900/20 to-pink-900/10 z-10 mix-blend-screen"></div>
+                <div class="mosaic-container">
+                    <div id="mosaic-target" class="mosaic-pattern"></div>
+                </div>
+            </div>
+
+            <!-- Strategy Text - Topo Esquerdo -->
+            <div class="absolute top-20 md:top-24 left-0 w-full z-20">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="inline-block opacity-80 hover:opacity-100 transition-opacity duration-500">
+                        <p class="font-mono text-[9px] sm:text-[10px] text-gray-400 tracking-[0.3em] uppercase flex items-center gap-4 cursor-default">
+                            <span class="w-8 md:w-12 h-px bg-gradient-to-r from-purple-500 to-pink-500 hidden md:block"></span> 
+                            Strategy_Creative_Production_Bizdev
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 w-full relative z-10 flex flex-col items-center justify-center mt-12 md:mt-16">
+                <div class="max-w-5xl flex flex-col items-center text-center gap-6 mx-auto">
+                    <h1 id="influencer-name" class="text-4xl sm:text-6xl md:text-7xl lg:text-[6rem] xl:text-[7.5rem] font-black leading-none tracking-tighter text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] whitespace-nowrap w-full uppercase">
+                        CALVO FORRA
+                    </h1>
+                    <a href="#comercial" class="mt-4 relative inline-block bg-white text-black font-extrabold uppercase tracking-[0.15em] px-10 py-5 text-sm md:text-base transition-all duration-300 hover:-translate-y-1 hover:shadow-[8px_8px_0px_#111111]">
+                        Ver Detalhes do Acordo
+                        <div class="absolute top-1 right-1 w-1.5 h-1.5 bg-black"></div>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Metas e Valores -->
+        <section id="comercial" class="pt-8 pb-24 relative z-10 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-3xl font-bold tracking-wider mb-2 uppercase">Metas e Comissionamento</h2>
+                <div class="w-12 h-1 bg-pink-500 mb-12"></div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="border border-pink-500/50 p-8 bg-black/60 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-pink-500 text-white text-xs font-bold px-3 py-1 uppercase">Meta Base</div>
+                        <p class="text-gray-400 uppercase tracking-widest text-sm mb-2">Objetivo de Depósitos</p>
+                        <h3 id="display-meta-base" class="text-4xl font-extrabold text-white mb-4">...</h3>
+                        <div class="h-px w-full bg-white/10 mb-4"></div>
+                        <p class="text-gray-400 uppercase tracking-widest text-sm mb-2">Fixo</p>
+                        <h3 id="display-fixo" class="text-3xl font-bold text-pink-500">...</h3>
+                    </div>
+
+                    <div class="border border-purple-500/50 p-8 bg-black/60 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-purple-500 text-white text-xs font-bold px-3 py-1 uppercase">Acelerador</div>
+                        <p class="text-gray-400 uppercase tracking-widest text-sm mb-2">A cada R$ 100k extras</p>
+                        <h3 id="display-acelerador" class="text-4xl font-extrabold text-white mb-4">...</h3>
+                        <div class="h-px w-full bg-white/10 mb-4"></div>
+                        <p class="text-gray-400 text-sm leading-relaxed">Sistema progressivo sem teto. A comissão cresce proporcionalmente à entrega além da meta base.</p>
+                    </div>
+                </div>
+
+                <!-- Exemplos -->
+                <div class="bg-white/5 border border-white/10 p-6 rounded-sm">
+                    <h4 class="text-sm uppercase tracking-widest text-gray-500 mb-6 font-bold flex items-center gap-2">
+                        <i data-lucide="trending-up" class="w-4 h-4"></i> Exemplo de Apuração
+                    </h4>
+                    <div id="scenarios-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Gerado via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regras e Pagamentos -->
+        <section id="regras" class="pt-8 pb-24 relative z-10 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-3xl font-bold tracking-wider mb-2 uppercase">Regras e Pagamentos</h2>
+                <div class="w-12 h-1 bg-pink-500 mb-12"></div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass-panel p-8 border-l-4 border-l-pink-500">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-pink-500/20 p-3 rounded-full">
+                                <i data-lucide="shield-check" class="w-6 h-6 text-pink-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Controle de Qualidade (KPI)</h3>
+                        </div>
+                        <p class="text-gray-300 font-light leading-relaxed mb-4 text-sm">
+                            Para comprovar a veracidade e qualidade do público, a meta está atrelada ao Wager.
+                        </p>
+                        <div class="bg-black/50 p-4 border border-white/5">
+                            <p id="display-wager-title" class="font-bold text-white uppercase text-xs">Regra 2X:</p>
+                            <p id="display-wager-desc" class="text-sm text-gray-400 mt-1">O valor total apostado deve ser o dobro do depositado.</p>
+                            <p id="display-wager-example" class="text-[10px] text-pink-400 mt-2 italic">Ex: R$ 200k em depósitos requer R$ 400k em apostas.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 border-l-4 border-l-purple-500">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-purple-500/20 p-3 rounded-full">
+                                <i data-lucide="wallet" class="w-6 h-6 text-purple-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Cronograma de Pagamentos</h3>
+                        </div>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4">
+                                <div class="text-purple-500 font-black text-xl mt-1">1</div>
+                                <div>
+                                    <h4 id="pay-title-1" class="font-bold text-white">50% Antecipado (...)</h4>
+                                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Pago mediante assinatura do contrato e início imediato das entregas.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="text-purple-500 font-black text-xl mt-1">2</div>
+                                <div>
+                                    <h4 class="font-bold text-white">50% Final + Bônus Acelerador</h4>
+                                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Apuração paga após a entrega da meta e validação do KPI.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-12 bg-black border-t border-white/10 relative z-10 text-center">
+            <img src="https://i.ibb.co/chfw0cND/Horizontal-Com-Tag-W.png" alt="3C Gaming" class="h-10 mx-auto opacity-70 mb-4">
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Confidencial &copy; 2026 3C Gaming</p>
+        </footer>
+    </div>
+
+    <script>
+        /* CONFIGURAÇÃO DO MODELO */
+        const CONFIG = {
+            influencer: "VINNU JOGA",
+            partnerLogo: "https://i.ibb.co/DgVdfDmz/image-7-1.png",
+            metaBase: 60000,      
+            valorFixo: 6000,      
+            bonusPorFaixa: 1000,  
+            valorFaixa: 10000,    
+            wagerMultiplier: 2,
+            password: "3c2026"
+        };
+
+        const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+
+        // Função de Bloqueio
+        const passInput = document.getElementById('password-input');
+        
+        // Listener para tecla Enter
+        passInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        function checkPassword() {
+            const val = passInput.value;
+            const lockScreen = document.getElementById('lock-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            if (val === CONFIG.password) {
+                // Sucesso
+                lockScreen.style.opacity = '0';
+                setTimeout(() => {
+                    lockScreen.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    init(); // Inicia o carregamento do conteúdo
+                }, 700);
+            } else {
+                // Erro
+                passInput.classList.add('shake');
+                passInput.value = '';
+                setTimeout(() => passInput.classList.remove('shake'), 500);
+            }
+        }
+
+        function init() {
+            document.getElementById('influencer-name').innerText = CONFIG.influencer;
+            document.getElementById('mosaic-target').style.backgroundImage = `url('${CONFIG.partnerLogo}')`;
+            document.getElementById('display-meta-base').innerText = fmt.format(CONFIG.metaBase);
+            document.getElementById('display-fixo').innerText = fmt.format(CONFIG.valorFixo);
+            document.getElementById('display-acelerador').innerText = `+ ${fmt.format(CONFIG.bonusPorFaixa)}`;
+
+            const valor50 = CONFIG.valorFixo / 2;
+            document.getElementById('pay-title-1').innerText = `50% Antecipado (${fmt.format(valor50)})`;
+
+            const scenarios = [
+                { meta: CONFIG.metaBase, label: "Cenário 1", desc: "Fixo Base" },
+                { meta: CONFIG.metaBase + CONFIG.valorFaixa, label: "Cenário 2", desc: `Fixo + 1 Faixa` },
+                { meta: CONFIG.metaBase + (CONFIG.valorFaixa * 2), label: "Cenário 3", desc: `Fixo + 2 Faixas` }
+            ];
+
+            const container = document.getElementById('scenarios-container');
+            container.innerHTML = scenarios.map((s, i) => {
+                const totalGanho = CONFIG.valorFixo + (i * CONFIG.bonusPorFaixa);
+                const colors = ['pink-500', 'purple-500', 'emerald-500'];
+                return `
+                    <div class="bg-black/60 border border-white/5 p-5 text-center rounded">
+                        <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-2">${s.label}</p>
+                        <p class="text-white font-bold text-lg mb-1">${fmt.format(s.meta)}</p>
+                        <p class="text-gray-500 text-[10px] uppercase mb-4">em depósitos</p>
+                        <div class="h-px w-12 bg-${colors[i]} mx-auto mb-4"></div>
+                        <p class="text-${colors[i]} font-extrabold text-2xl mb-1">${fmt.format(totalGanho)}</p>
+                        <p class="text-[10px] text-gray-400 font-light uppercase">${s.desc}</p>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('display-wager-title').innerText = `REGRA ${CONFIG.wagerMultiplier}X:`;
+            document.getElementById('display-wager-example').innerText = `Ex: Para meta de ${fmt.format(CONFIG.metaBase)}, requer ${fmt.format(CONFIG.metaBase * CONFIG.wagerMultiplier)} em apostas reais.`;
+            
+            lucide.createIcons();
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-black/95', 'backdrop-blur-xl', 'border-b', 'border-white/10');
+            } else {
+                nav.classList.remove('bg-black/95', 'backdrop-blur-xl', 'border-b', 'border-white/10');
+            }
+        });
+    </script>
+</body>
+</html>
